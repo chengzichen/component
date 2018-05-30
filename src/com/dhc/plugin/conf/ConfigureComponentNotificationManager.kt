@@ -14,23 +14,22 @@ import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.IndexNotReadyException
 import com.intellij.openapi.project.Project
-import com.dhc.plugin.notifications.ConfigureKotlinNotification
+import com.dhc.plugin.notifications.ConfigureComponentNotification
 import com.dhc.plugin.util.isNotConfiguredNotificationRequired
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.reflect.KClass
+object ConfigureComponentNotificationManager:ComponentSingleNotificationManager<ConfigureComponentNotification> {
 
-object ConfigureKotlinNotificationManager: KotlinSingleNotificationManager<ConfigureKotlinNotification> {
-
-    fun getVisibleNotifications(project: Project): Array<out ConfigureKotlinNotification> {
-        return NotificationsManager.getNotificationsManager().getNotificationsOfType(ConfigureKotlinNotification::class.java, project)
+    fun getVisibleNotifications(project: Project): Array<out ConfigureComponentNotification> {
+        return NotificationsManager.getNotificationsManager().getNotificationsOfType(ConfigureComponentNotification::class.java, project)
     }
 
     fun expireOldNotifications(project: Project) {
-        expireOldNotifications(project, ConfigureKotlinNotification::class)
+        expireOldNotifications(project, ConfigureComponentNotification::class)
     }
 }
 
-interface KotlinSingleNotificationManager<in T: Notification> {
+interface ComponentSingleNotificationManager<in T: Notification> {
 
     fun expireOldNotifications(project: Project, notificationClass: KClass<out T>, notification: T? = null): Boolean {
         val notificationsManager = NotificationsManager.getNotificationsManager()
@@ -52,7 +51,7 @@ private val checkInProgress = AtomicBoolean(false)
 
 fun checkHideNonConfiguredNotifications(project: Project) {
     if (checkInProgress.get()) return
-    val notification = ConfigureKotlinNotificationManager.getVisibleNotifications(project).firstOrNull() ?: return
+    val notification = ConfigureComponentNotificationManager.getVisibleNotifications(project).firstOrNull() ?: return
 
     ApplicationManager.getApplication().executeOnPooledThread {
         if (!checkInProgress.compareAndSet(false, true)) return@executeOnPooledThread
@@ -84,7 +83,7 @@ fun checkHideNonConfiguredNotifications(project: Project) {
 
         if (hideNotification) {
             ApplicationManager.getApplication().invokeLater {
-                ConfigureKotlinNotificationManager.expireOldNotifications(project)
+                ConfigureComponentNotificationManager.expireOldNotifications(project)
                 checkInProgress.set(false)
             }
         } else {
@@ -93,4 +92,4 @@ fun checkHideNonConfiguredNotifications(project: Project) {
     }
 }
 
-private val LOG = Logger.getInstance(ConfigureKotlinNotificationManager::class.java)
+private val LOG = Logger.getInstance(ConfigureComponentNotificationManager::class.java)

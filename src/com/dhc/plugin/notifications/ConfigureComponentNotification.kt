@@ -12,17 +12,16 @@ import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
 import com.dhc.plugin.util.getConfiguratorByName
 import javax.swing.event.HyperlinkEvent
-
-data class ConfigureKotlinNotificationState(
+data class ConfigureComponentNotificationState(
     val debugProjectName: String,
     val notificationString: String,
     val notConfiguredModules: Collection<String>
 )
 
-class ConfigureKotlinNotification(
+class ConfigureComponentNotification(
     project: Project,
     excludeModules: List<Module>,
-    val notificationState: ConfigureKotlinNotificationState
+    val notificationState: ConfigureComponentNotificationState
 ) : Notification(
         "Configure Component in Project", "Configure Component",
     notificationState.notificationString,
@@ -38,7 +37,7 @@ class ConfigureKotlinNotification(
 ) {
     override fun equals(o: Any?): Boolean {
         if (this === o) return true
-        if (o !is ConfigureKotlinNotification) return false
+        if (o !is ConfigureComponentNotification) return false
 
         if (content != o.content) return false
 
