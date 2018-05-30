@@ -1,0 +1,57 @@
+<idea-plugin>
+  <id>com.dhc.plugin.component</id>
+  <name>componentPlugin</name>
+  <version>1.0.0</version>
+  <vendor email="13340199938@163.com" url="https://github.com/chengzichen/Flyabbit">好酷科技</vendor>
+
+  <description><![CDATA[
+    use Component with FMVP  template  Quickly and easily.<br>
+    ]]></description>
+
+
+  <idea-version since-build="131"/>
+
+
+  <depends>org.intellij.groovy</depends>
+  <!--<depends>org.jetbrains.plugins.gradle</depends>-->
+
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!--<projectService serviceInterface="com.dhc.plugin.conf.KotlinFacetSettingsProvider"-->
+    <!--serviceImplementation="com.dhc.plugin.conf.KotlinFacetSettingsProviderImpl"/>-->
+    <!--<projectTemplatesFactory implementation="com.dhc.plugin.framework.KotlinTemplatesFactory"/>-->
+
+  </extensions>
+  <extensions defaultExtensionNs="com.dhc.plugin.conf">
+    <!--<projectConfigurator implementation="com.dhc.plugin.conf.KotlinGradleModuleConfigurator"/>-->
+    <projectConfigurator implementation="com.dhc.plugin.conf.ComponentAndroidGradleModuleConfigurator"/>
+    <buildSystemTypeDetector implementation="com.dhc.plugin.conf.GradleDetector"/>
+  </extensions>
+
+  <extensionPoints>
+    <extensionPoint qualifiedName="com.dhc.plugin.conf.projectConfigurator"
+                    interface="com.dhc.plugin.conf.ComponentProjectConfigurator"/>
+    <!-- Add your extensions here -->
+    <!--<extensionPoint qualifiedName="com.dhc.plugin.moduleBuilder"-->
+    <!--interface="com.intellij.ide.util.projectWizard.ModuleBuilder"/>-->
+    <extensionPoint qualifiedName="com.dhc.plugin.conf.buildSystemTypeDetector"
+                    interface="com.dhc.plugin.conf.BuildSystemTypeDetector"/>
+  </extensionPoints>
+
+
+  <actions>
+    <group id="ComponentPluginGroup" popup="true" text="Component"
+           class="com.dhc.plugin.action.ComponentActionGroup">
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
+    </group>
+    <action id="ConfigureComponentInProject" class="com.dhc.plugin.action.ConfigureComponentJavaInProjectAction"
+            text="Configure Component in Project">
+      <add-to-group group-id="ComponentPluginGroup"/>
+    </action>
+    <!-- Add your actions here -->
+    <action id="FMVP.FMVPAction" class="com.dhc.plugin.action.FMVPAction" text="newFMvpFile">
+      <add-to-group group-id="NewGroup" anchor="last"/>
+    </action>
+    <!-- Add your actions here -->
+  </actions>
+</idea-plugin>

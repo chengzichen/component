@@ -1,0 +1,23 @@
+package &package&;
+
+import &ContractPackageName&.&Contract&;
+import &DataServicePackageName&.&Module&RemoteDataService;
+import javax.inject.Inject;
+import com.dhc.library.base.XPresenter;
+/**
+ * @author
+ * @createDate
+ * @description
+ */
+
+public class &Module&Presenter extends XPresenter<&Contract&.IView> implements &Contract&.IPresenter {
+
+    private &Module&RemoteDataService m&Module&RemoteDataService;
+
+    @Inject
+    public &Module&Presenter(&Module&RemoteDataService &Module&RemoteDataService) {
+        m&Module&RemoteDataService = &Module&RemoteDataService;
+    }
+
+
+}

@@ -1,0 +1,30 @@
+package &package&;
+import com.dhc.library.base.IBaseModle;
+import com.dhc.library.base.IBasePresenter;
+import com.dhc.library.base.IBaseView;
+
+/**
+ * @author
+ * @createDate
+ * @description
+ */
+public interface &Contract& {
+
+    interface IView<T> extends IBaseView {
+
+        void success(T data);
+
+        void failure(String code, String msg);
+    }
+
+    interface IPresenter extends IBasePresenter<IView> {
+
+
+    }
+
+    interface IModle extends IBaseModle {
+
+
+    }
+
+}
