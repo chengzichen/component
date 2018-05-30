@@ -53,7 +53,7 @@ public class ConfigureDialogWithModulesAndVersion extends DialogWrapper {
     private static final String VERSIONS_LIST_URL = "https://bundle-1253245619.cos.ap-guangzhou.myqcloud.com/version.json";
 
     @NotNull private final String minimumVersion;
-    @NotNull public static String COMPVERSION="1.0.2";
+    @NotNull public static String COMPVERSION="1.0.5";
 
 
     private final ChooseModulePanel chooseModulePanel;
@@ -128,8 +128,7 @@ public class ConfigureDialogWithModulesAndVersion extends DialogWrapper {
             hideLoader();
         }
         catch (Throwable t) {
-            System.out.println(t.getMessage());
-            items = Collections.singletonList("1.0.4");
+            items = Collections.singletonList("1.0.5");
             showWarning();
         }
         updateVersions(items);
@@ -219,11 +218,10 @@ public class ConfigureDialogWithModulesAndVersion extends DialogWrapper {
                     }
                 }
             }catch (Exception e){
-                Messages.showErrorDialog(e.getMessage(),e.getMessage());
                 System.out.println(e.getMessage());
             }
             finally {
-                Closeables.closeQuietly(streamReader);
+                streamReader.close();
             }
         }
         finally {
