@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.dhc.plugin.component</id>
   <name>componentPlugin</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <vendor email="13340199938@163.com" url="https://github.com/chengzichen/Flyabbit">好酷科技</vendor>
 
   <description><![CDATA[
