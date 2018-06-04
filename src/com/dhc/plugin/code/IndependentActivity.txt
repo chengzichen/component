@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-
+/**
+ * @author
+ * @createDate
+ * @description
+ */
 public class DebugActivity extends Activity {
 
 

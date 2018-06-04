@@ -1,6 +1,5 @@
 package &package&;
 
-import java.util.List;
 import javax.inject.Inject;
 import com.dhc.library.data.HttpHelper;
 import &ContractPackageName&.&Contract&;

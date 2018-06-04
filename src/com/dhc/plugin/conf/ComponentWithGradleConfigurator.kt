@@ -21,22 +21,14 @@ import com.intellij.openapi.vfs.WritingAccessProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
-//import com.dhc.plugin.util.hasAnyKotlinRuntimeInScope
 import com.dhc.plugin.ui.ConfigureDialogWithModulesAndVersion
 import com.dhc.plugin.util.*
 import com.intellij.openapi.vfs.LocalFileSystem
 import org.jetbrains.plugins.groovy.lang.psi.GroovyFile
-import org.w3c.dom.Document
-import org.w3c.dom.Element
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import java.io.*
 import java.util.*
 import kotlin.collections.HashMap
 import java.io.FileOutputStream
-import javax.xml.transform.stream.StreamResult
-import javax.xml.transform.dom.DOMSource
-import javax.xml.transform.TransformerFactory
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -54,9 +46,7 @@ abstract class ComponentWithGradleConfigurator : ComponentProjectConfigurator {
             return ConfigureKotlinStatus.NON_APPLICABLE
         }
 
-//        if (moduleSourceRootGroup.sourceRootModules.all(::hasAnyKotlinRuntimeInScope)) {
-//            return ConfigureKotlinStatus.CONFIGURED
-//        }
+
 
         val buildFiles = runReadAction {
             listOf(
@@ -64,7 +54,9 @@ abstract class ComponentWithGradleConfigurator : ComponentProjectConfigurator {
                     module.project.getTopLevelBuildScriptPsiFile()
             ).filterNotNull()
         }
-
+        if (buildFiles[0].isConfiguredByAnyGradleConfigurator() ) {
+            return ConfigureKotlinStatus.CONFIGURED
+        }
 
         if (buildFiles.isEmpty()) {
             return ConfigureKotlinStatus.NON_APPLICABLE
@@ -142,7 +134,7 @@ abstract class ComponentWithGradleConfigurator : ComponentProjectConfigurator {
             category.setAttribute("android:name", "android.intent.category.LAUNCHER")
             filter.appendChild(action)
             filter.appendChild(category)
-            activity.setAttribute("android:name", packageName + ".DebugActivity")
+            activity.setAttribute("android:name", packageName + ".IndependentActivity")
             activity.setAttribute("android:label", module.name)
             activity.appendChild(filter)
             application.appendChild(activity)
@@ -161,11 +153,11 @@ abstract class ComponentWithGradleConfigurator : ComponentProjectConfigurator {
         module. project.executeCommand("Configure Activity") {
            val fileUtil= FileUtil()
             val modlePath = File(module.moduleFilePath).parent
-            val dataService = fileUtil.readFile("DebugActivity.txt")
+            val dataService = fileUtil.readFile("IndependentActivity.txt")
                     .replace("&package&", packageName)
-            val srcService = fileUtil.readFile("activity_debug.txt")
-            fileUtil. writetoFile(dataService, getJavaFile(modlePath), "DebugActivity.java")
-            fileUtil.writetoFile(srcService, getResFile(modlePath), "activity_debug.xml")
+            val srcService = fileUtil.readFile("activity_independent.txt")
+            fileUtil. writetoFile(dataService, getJavaFile(modlePath), "IndependentActivity.java")
+            fileUtil.writetoFile(srcService, getResFile(modlePath), "activity_independent.xml")
         }
     }
 
@@ -414,9 +406,9 @@ abstract class ComponentWithGradleConfigurator : ComponentProjectConfigurator {
 
         fun configureProjectFile(file: PsiFile, version: String): Boolean = getManipulator(file).configureProjectBuildScript(version)
 
-        private fun canConfigureFile(file: PsiFile): Boolean = WritingAccessProvider.isPotentiallyWritable(file.virtualFile, null)
+        fun canConfigureFile(file: PsiFile): Boolean = WritingAccessProvider.isPotentiallyWritable(file.virtualFile, null)
 
-        private fun Module.getBuildScriptPsiFile() = getBuildScriptFile()?.getPsiFile(project)
+        fun Module.getBuildScriptPsiFile() = getBuildScriptFile()?.getPsiFile(project)
 
         private fun Project.getTopLevelBuildScriptPsiFile() = basePath?.let { findBuildGradleFile(it)?.getPsiFile(this) }
 
@@ -490,7 +482,7 @@ abstract class ComponentWithGradleConfigurator : ComponentProjectConfigurator {
 
         private fun File.getVirtualFile(project: Project) = VfsUtil.findFileByIoFile(this, true)
 
-        private fun showErrorMessage(project: Project, message: String?) {
+        fun showErrorMessage(project: Project, message: String?) {
             Messages.showErrorDialog(
                     project,
                     "<html>Couldn't configure  component-gradle plugin automatically.<br/>" +

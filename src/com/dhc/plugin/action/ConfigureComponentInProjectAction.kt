@@ -13,7 +13,9 @@ import com.dhc.plugin.util.getConfigurableModules
 import com.dhc.plugin.util.isModuleConfigured
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.openapi.ui.popup.PopupStep
@@ -26,10 +28,9 @@ abstract class ConfigureComponentInProjectAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
-
         val modules = getConfigurableModules(project)
         if (modules.all(::isModuleConfigured)) {
-            Messages.showInfoMessage("All modules with Kotlin files are configured", e.presentation.text!!)
+            Messages.showInfoMessage("All modules with Component files are configured", e.presentation.text!!)
             return
         }
 

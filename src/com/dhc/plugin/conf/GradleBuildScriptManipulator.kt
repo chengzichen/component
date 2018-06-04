@@ -32,6 +32,8 @@ interface GradleBuildScriptManipulator {
 
     fun configureProjectBuildScript(version: String): Boolean
 
+    fun configureModuleBuildScriptWithMVP(daggerArtifactName :String,aRouterArtifactName :String): Boolean
+
     fun changeCoroutineConfiguration(coroutineOption: String): PsiElement?
 
     fun changeLanguageVersion(version: String, forTests: Boolean): PsiElement?

@@ -93,6 +93,17 @@ class GroovyBuildScriptManipulator(private val groovyScript: GroovyFile) : Gradl
         }
     }
 
+
+    override fun configureModuleBuildScriptWithMVP(daggerArtifactName :String,aRouterArtifactName :String):Boolean{
+        val oldText = groovyScript.text
+        groovyScript.getDependenciesBlock().apply {
+            addExpressionInBlockIfNeeded(getDagger2GroovyDependencySnippet(daggerArtifactName), false)
+        }
+        groovyScript.getDependenciesBlock().apply {
+            addExpressionInBlockIfNeeded(getARouterGroovyDependencySnippet(aRouterArtifactName), false)
+        }
+        return groovyScript.text != oldText
+    }
     override fun configureProjectBuildScript(version: String): Boolean {
         val oldText = groovyScript.text
         groovyScript.apply {
@@ -171,6 +182,9 @@ class GroovyBuildScriptManipulator(private val groovyScript: GroovyFile) : Gradl
         return null
     }
 
+
+
+
     private fun changeKotlinTaskParameter(
         gradleFile: GroovyFile,
         parameterName: String,
@@ -195,6 +209,8 @@ class GroovyBuildScriptManipulator(private val groovyScript: GroovyFile) : Gradl
         return kotlinBlock.parent
     }
     private fun getGroovyDependencySnippet(artifactName: String) = "compile \"com.dhc.lib:$artifactName:\$component_version\""
+    private fun getARouterGroovyDependencySnippet(artifactName: String) = "annotationProcessor \"com.google.dagger:$artifactName:2.13\""//dagger-compiler
+    private fun getDagger2GroovyDependencySnippet(artifactName: String) = "annotationProcessor \"com.alibaba:$artifactName:1.1.2.1\""//arouter-compiler
 
     private fun getApplyPluginDirective(pluginName: String) = "apply plugin: '$pluginName'"
 

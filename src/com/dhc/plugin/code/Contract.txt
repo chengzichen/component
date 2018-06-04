@@ -18,13 +18,11 @@ public interface &Contract& {
     }
 
     interface IPresenter extends IBasePresenter<IView> {
-
-
+     //TODO doSomething
     }
 
     interface IModle extends IBaseModle {
-
-
+        //TODO doSomething
     }
 
 }

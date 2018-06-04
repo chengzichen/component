@@ -1,0 +1,36 @@
+package &package&;
+
+
+import &diComponentPackageName&.DaggerActivityComponent;
+import &diComponentPackageName&.DaggerFragmentComponent;
+import &diComponentPackageName&.ActivityComponent;
+import &diComponentPackageName&.FragmentComponent;
+import com.dhc.library.base.BaseApplication;
+import com.dhc.library.di.module.ActivityModule;
+import com.dhc.library.di.module.FragmentModule;
+import com.dhc.library.utils.AppContext;
+
+/**
+ * @author:
+ * @createDate :
+ * @description :
+ */
+public class DiHelper {
+
+        public static ActivityComponent getActivityComponent(ActivityModule activityModule) {
+            return DaggerActivityComponent.builder()
+                    .appComponent(((BaseApplication) AppContext.get()).getAppComponent())
+                    .activityModule(activityModule)
+                    .build();
+        }
+
+
+    public static FragmentComponent getFragmentComponent(FragmentModule fragmentModule){
+            return DaggerFragmentComponent.builder()
+                    .appComponent(((BaseApplication)AppContext.get()).getAppComponent())
+                    .fragmentModule(fragmentModule)
+                    .build();
+        }
+
+
+}
