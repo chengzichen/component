@@ -49,7 +49,7 @@
       <add-to-group group-id="ComponentPluginGroup"/>
     </action>
     <!-- Add your actions here -->
-    <action id="FMVP.FMVPAction" class="com.dhc.plugin.action.FMVPAction" text="newFMvpFile">
+    <action id="FMVP.FMVPAction" class="com.dhc.plugin.action.FMVPAction" text="FMVP-File">
       <add-to-group group-id="NewGroup" anchor="last"/>
     </action>
     <!-- Add your actions here -->
