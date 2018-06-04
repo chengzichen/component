@@ -135,20 +135,34 @@ class FMVPAction : AnAction() {
                     .replace("&Presenter&", className + "Presenter")
             fileUtil. writetoFile(activity, uiPath, className + "Activity.java")
         }
-        val activityComponent =fileUtil. readFile("ActivityComponent.txt")
-                .replace("&package&", getPackageName(componentPath))
-        val fragmentComponent =fileUtil. readFile("FragmentComponent.txt")
-                .replace("&package&", getPackageName(componentPath))
-        val diHelper =fileUtil. readFile("DiHelper.txt")
-                .replace("&package&", getPackageName(diPath))
-                .replace("&diComponentPackageName&", getPackageName(componentPath))
+
+
+
 
         fileUtil. writetoFile(contract, contractPath, "I" + className + "Contract.java")
         fileUtil.  writetoFile(presenter, presenterPath, className + "Presenter.java")
         fileUtil.  writetoFile(dataService, modlePath, className + "RemoteDataService.java")
-        fileUtil.  writetoFile(activityComponent, componentPath, "ActivityComponent.java")
-        fileUtil.  writetoFile(fragmentComponent, componentPath, "FragmentComponent.java")
-        fileUtil.  writetoFile(diHelper, diPath, "DiHelper.java")
+       if(! isExist(componentPath,"ActivityComponent.java")){
+           val activityComponent =fileUtil. readFile("ActivityComponent.txt")
+                   .replace("&package&", getPackageName(componentPath))
+           fileUtil.  writetoFile(activityComponent, componentPath, "ActivityComponent.java")
+       }
+       if(! isExist(componentPath,"FragmentComponent.java")){
+           val fragmentComponent =fileUtil. readFile("FragmentComponent.txt")
+                   .replace("&package&", getPackageName(componentPath))
+           fileUtil.  writetoFile(fragmentComponent, componentPath, "FragmentComponent.java")
+       }
+       if(!isExist(diPath,"DiHelper.java")){
+           val diHelper =fileUtil. readFile("DiHelper.txt")
+                   .replace("&package&", getPackageName(diPath))
+                   .replace("&diComponentPackageName&", getPackageName(componentPath))
+           fileUtil.  writetoFile(diHelper, diPath, "DiHelper.java")
+       }
+
+    }
+
+     fun isExist( filepath:String,filename :String): Boolean{
+        return  File(filepath).exists()&& File("$filepath/$filename").exists()
     }
 
     private fun getPackageName(path: String): String {
