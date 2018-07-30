@@ -9,12 +9,12 @@ import android.support.annotation.Nullable;
  * @createDate
  * @description
  */
-public class DebugActivity extends Activity {
+public class IndependentActivity extends Activity {
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_debug);
+        setContentView(R.layout.activity_independent);
     }
 }

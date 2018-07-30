@@ -47,11 +47,13 @@ public class ChooseModulePanel {
 
     @NotNull private final Project project;
     @NotNull private final List<Module> modules;
+    @NotNull private final List<Module> hostModules;
     @NotNull private final List<Module> modulesWithKtFiles;
 
     public ChooseModulePanel(@NotNull Project project, @NotNull ComponentProjectConfigurator configurator, Collection<Module> excludeModules) {
         this.project = project;
         this.modules = ConfigureComponentInProjectUtilsKt.getCanBeConfiguredModules(project, configurator);
+        this.hostModules = ConfigureComponentInProjectUtilsKt.getCanBeConfiguredHostModules(project,configurator);
         this.modulesWithKtFiles =new ArrayList();
 
         DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
@@ -61,8 +63,15 @@ public class ChooseModulePanel {
                 return s2.getName().charAt(0)-s1.getName().charAt(0);
             }}
     .reversed());
+        Collections.sort(hostModules ,new Comparator<Module>() {
+            public int compare(Module s1, Module s2) {
+                return s2.getName().charAt(0)-s1.getName().charAt(0);
+            }}
+    .reversed());
         for (Module module : modules) {
             comboBoxModel.addElement(module.getName());
+        }
+        for (Module module : hostModules){
             hostMoudleBoxModel.addElement(module.getName());
         }
         if (modulesWithKtFiles.isEmpty()) {

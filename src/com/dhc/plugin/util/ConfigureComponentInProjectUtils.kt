@@ -65,7 +65,11 @@ fun getAbleToRunConfigurators(project: Project): Collection<ComponentProjectConf
 fun getConfigurableModules(project: Project): List<ModuleSourceRootGroup> {
     return ModuleSourceRootMap(project).groupByBaseModules(project.allModules())
 }
-
+fun getCanBeConfiguredHostModules(project: Project, configurator: ComponentProjectConfigurator): List<Module> {
+    return ModuleSourceRootMap(project).groupByBaseModules(project.allModules())
+            .filter { configurator.canSetHostConfigure(it) }
+            .map { it.baseModule }
+}
 
 fun getConfiguratorByName(name: String): ComponentProjectConfigurator? {
     return allConfigurators().firstOrNull { it.name == name }
@@ -82,6 +86,9 @@ fun getCanBeConfiguredModules(project: Project, configurator: ComponentProjectCo
 private fun ComponentProjectConfigurator.canConfigure(moduleSourceRootGroup: ModuleSourceRootGroup) =
         getStatus(moduleSourceRootGroup) == ConfigureKotlinStatus.CAN_BE_CONFIGURED &&
                 (allConfigurators().toList() - this).none { it.getStatus(moduleSourceRootGroup) == ConfigureKotlinStatus.CONFIGURED }
+
+private fun ComponentProjectConfigurator.canSetHostConfigure(moduleSourceRootGroup: ModuleSourceRootGroup) =
+        getStatus(moduleSourceRootGroup) != ConfigureKotlinStatus.NON_APPLICABLE
 
 
 
