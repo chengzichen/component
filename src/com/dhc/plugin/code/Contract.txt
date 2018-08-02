@@ -1,5 +1,5 @@
 package &package&;
-import com.dhc.library.framework.IBaseModle;
+import com.dhc.library.framework.IBaseModel;
 import com.dhc.library.framework.IBasePresenter;
 import com.dhc.library.framework.IBaseView;
 
@@ -21,7 +21,7 @@ public interface &Contract& {
      //TODO doSomething
     }
 
-    interface IModel extends IBaseModle {
+    interface IModel extends IBaseModel {
         //TODO doSomething
     }
 
