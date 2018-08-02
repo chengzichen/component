@@ -21,7 +21,7 @@ public interface &Contract& {
      //TODO doSomething
     }
 
-    interface IModle extends IBaseModle {
+    interface IModel extends IBaseModle {
         //TODO doSomething
     }
 
