@@ -4,12 +4,12 @@ import javax.inject.Inject;
 import com.dhc.library.data.HttpHelper;
 import &ContractPackageName&.&Contract&;
 /**
- * @author
+ * @author dhc
  * @createDate
  * @description
  */
 
-public class &Module&RemoteDataService  implements &Contract&.IModle {
+public class &Module&RemoteDataService  implements &Contract&.IModel {
 
     private HttpHelper mHttpHelper;
 
