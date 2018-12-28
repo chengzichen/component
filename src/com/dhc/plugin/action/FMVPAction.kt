@@ -105,8 +105,10 @@ class FMVPAction : AnAction() {
         val contract =fileUtil. readFile("Contract.txt")
                 .replace("&package&", getPackageName(contractPath))
                 .replace("&Contract&", "I" + className + "Contract")
+
+       val presenterPackage= getPackageName(presenterPath);
         val presenter = fileUtil.readFile("Presenter.txt")
-                .replace("&package&", getPackageName(presenterPath))
+                .replace("&package&",presenterPackage)
                 .replace("&Module&", className)
                 .replace("&Contract&", "I" + className + "Contract")
                 .replace("&ContractPackageName&", getPackageName(contractPath))
@@ -124,6 +126,7 @@ class FMVPAction : AnAction() {
                     .replace("&Fragment&", className + "Fragment")
                     .replace("&ContractPackageName&", getPackageName(contractPath))
                     .replace("&Contract&", "I" + className + "Contract")
+                    .replace("&presenterPackage&", presenterPackage)
                     .replace("&Presenter&", className + "Presenter")
             fileUtil. writetoFile(fragment, uiPath, className + "Fragment.java")
         } else if (isActivity) {
@@ -131,6 +134,7 @@ class FMVPAction : AnAction() {
                     .replace("&package&", getPackageName(uiPath))
                     .replace("&Activity&", className + "Activity")
                     .replace("&ContractPackageName&", getPackageName(contractPath))
+                    .replace("&presenterPackage&", presenterPackage)
                     .replace("&Contract&", "I" + className + "Contract")
                     .replace("&Presenter&", className + "Presenter")
             fileUtil. writetoFile(activity, uiPath, className + "Activity.java")

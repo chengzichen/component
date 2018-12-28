@@ -4,12 +4,13 @@ import android.os.Bundle;
 
 import com.dhc.library.base.XDaggerActivity;
 import &ContractPackageName&.&Contract&;
+import &presenterPackage&.&Presenter&;
 /**
  * @author
  * @createDate
  * @description
  */
-public class &Activity& extends XDaggerActivity<&Contract&.IPresenter> implements &Contract&.IView {
+public class &Activity& extends XDaggerActivity<&Presenter&> implements &Contract&.IView {
   @Override
     public int getLayoutId() {
         return 0;

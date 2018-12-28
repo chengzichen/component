@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.view.View;
 import com.dhc.library.base.XDaggerFragment;
 import &ContractPackageName&.&Contract&;
+import &presenterPackage&.&Presenter&;
 /**
  * @author
  * @createDate
  * @description
  */
 
-public class &Fragment& extends XDaggerFragment<&Contract&.IPresenter> implements &Contract&.IView {
+public class &Fragment& extends XDaggerFragment<&Presenter&> implements &Contract&.IView {
    @Override
     public int getLayoutId() {
         return 0;
